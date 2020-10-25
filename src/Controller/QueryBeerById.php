@@ -6,8 +6,9 @@ namespace App\Controller;
 
 use App\Entity\Beer;
 use App\Repository\BeerRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class QueryBeerById
 {
@@ -16,11 +17,18 @@ class QueryBeerById
      * @var BeerRepository
      */
     private $beerRepository;
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
 
-    public function __construct(BeerRepository $beerRepository)
+    public function __construct(BeerRepository $beerRepository,
+                                SerializerInterface $serializer
+    )
     {
 
         $this->beerRepository = $beerRepository;
+        $this->serializer = $serializer;
     }
 
     /** @Route("/beers/{id}") methods={"GET"} */
@@ -32,6 +40,8 @@ class QueryBeerById
             throw new \Exception('Beer not found!');
         }
 
-        return new JsonResponse($beer);
+        return new Response(
+            $this->serializer->serialize($beer,'json',['groups'=>'detail']),Response::HTTP_OK, ['Content-type' => 'application/json']
+        );
     }
 }

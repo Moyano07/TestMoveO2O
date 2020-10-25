@@ -4,24 +4,45 @@
 namespace App\Entity;
 
 
+
+use Symfony\Component\Serializer\Annotation\Groups;
+
 class Beer
 {
-    /** @var int */
+    /**
+     * @var int
+     * @Groups({"list","detail"})
+     */
     public $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"list","detail"})
+     */
     public $name;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"list","detail"})
+     */
     public $description;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"detail"})
+     */
     public $imageUrl;
 
-    /** @var string */
+    /**
+     * @var string
+     *@Groups({"detail"})
+     */
     public $tagline;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"detail"})
+     */
     public $firstBrewed;
 
 
